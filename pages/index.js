@@ -1,57 +1,75 @@
-
-import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
-import Todo from "../components/Todo.js";  
+import Todo from "../components/Todo.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import TodoCounter from "../components/TodoCounter.js";
 
-// Function to handle form submissions
-const handleFormSubmit = (formData) => {
-  console.log('Form Data:', formData);  
-  const newTodo = generateTodo({
-    ...formData,
-    id: uuidv4(),
-    date: new Date(formData.date).toISOString(),
-  });
-  console.log('New Todo:', newTodo);  
-  section.addItem(newTodo);
-  todoCounter.updateTotal(true);
+// Create form validator instance at the top level
+const todoForm = document.querySelector("#add-todo-form");
+const formValidator = new FormValidator(validationConfig, todoForm);
+formValidator.enableValidation();
+
+const renderTodo = (item) => {
+  const todo = generateTodo(item);
+  section.addItem(todo);
 };
 
-// Initialize PopupWithForm
-const popupWithForm = new PopupWithForm('#add-todo-popup', handleFormSubmit);
+const handleFormSubmit = (formData) => {
+  const newTodo = {
+    ...formData,
+    id: crypto.randomUUID(),
+    date: formData.date ? new Date(formData.date).toISOString() : '',
+    completed: false
+  };
+  renderTodo(newTodo);
+  todoCounter.updateTotal(true);
+  popupWithForm.close();
+  formValidator.resetValidation(); // Reset validation only after submission
+};
+
+// Pass formValidator to PopupWithForm
+const popupWithForm = new PopupWithForm(
+  '#add-todo-popup', 
+  handleFormSubmit,
+  formValidator
+);
 popupWithForm.setEventListeners();
 
-// Function to generate a new todo item
+// Extract repeated code into functions
+const handleTodoDelete = (wasCompleted) => {
+  todoCounter.updateTotal(false);
+  if (wasCompleted) {
+    todoCounter.updateCompleted(false);
+  }
+};
+
+const handleTodoComplete = (isCompleted) => {
+  todoCounter.updateCompleted(isCompleted);
+};
+
 const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template");
+  const todo = new Todo(
+    data, 
+    "#todo-template",
+    handleTodoDelete,
+    handleTodoComplete
+  );
   return todo.getView();
 };
 
-// Initialize and render the section with initial todos
 const section = new Section({
   items: initialTodos,
-  renderer: (item) => {
-    const todo = generateTodo(item);
-    section.addItem(todo);
-  },
+  renderer: renderTodo,
   containerSelector: ".todos__list"
 });
 section.renderItems();
 
-// Initialize the todo counter
 const todoCounter = new TodoCounter(initialTodos, '.counter__text');
 
-// Add event listener to open the popup form
 document.querySelector(".button_action_add").addEventListener("click", () => {
   popupWithForm.open();
 });
-
-// Enable form validation for the add todo form
-const addTodoFormValidator = new FormValidator(validationConfig, popupWithForm._form);
-addTodoFormValidator.enableValidation();
 
 
 
