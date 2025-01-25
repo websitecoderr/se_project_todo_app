@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
 import Todo from "../components/Todo.js";
@@ -64,6 +65,7 @@ const section = new Section({
   containerSelector: ".todos__list"
 });
 section.renderItems();
+
 
 const todoCounter = new TodoCounter(initialTodos, '.counter__text');
 

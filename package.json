@@ -1,9 +1,13 @@
 {
   "name": "se_project_todo-app",
+  "name": "se_project_todo-app",
   "version": "1.0.0",
   "description": "A simple todo application",
   "type": "module",
+  "description": "A simple todo application",
+  "type": "module",
   "scripts": {
+    "start": "live-server"
     "start": "live-server"
   },
   "devDependencies": {

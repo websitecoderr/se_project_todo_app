@@ -1,4 +1,6 @@
 import Popup from "./Popup.js";
+import { FormValidator } from "./FormValidator.js";
+import { validationConfig } from "../utils/constants.js";
 
 class PopupWithForm extends Popup {
   constructor(popupSelector, handleFormSubmit, formValidator) {
@@ -27,7 +29,7 @@ class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this._form.reset();
+    this._formValidator.resetValidation();
   }
 }
 
