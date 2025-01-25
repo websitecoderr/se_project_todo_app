@@ -5,7 +5,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import TodoCounter from "../components/TodoCounter.js";
 
-// Create form validator instance at the top level
+
 const todoForm = document.querySelector("#add-todo-form");
 const formValidator = new FormValidator(validationConfig, todoForm);
 formValidator.enableValidation();
@@ -25,10 +25,10 @@ const handleFormSubmit = (formData) => {
   renderTodo(newTodo);
   todoCounter.updateTotal(true);
   popupWithForm.close();
-  formValidator.resetValidation(); // Reset validation only after submission
+  formValidator.resetValidation(); 
 };
 
-// Pass formValidator to PopupWithForm
+
 const popupWithForm = new PopupWithForm(
   '#add-todo-popup', 
   handleFormSubmit,
@@ -36,7 +36,7 @@ const popupWithForm = new PopupWithForm(
 );
 popupWithForm.setEventListeners();
 
-// Extract repeated code into functions
+
 const handleTodoDelete = (wasCompleted) => {
   todoCounter.updateTotal(false);
   if (wasCompleted) {
