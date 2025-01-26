@@ -26,7 +26,9 @@ const handleFormSubmit = (formData) => {
   todoCounter.updateTotal(true);
   popupWithForm.close();
   formValidator.resetValidation(); 
+  evt.target.reset(); 
 };
+
 
 
 const popupWithForm = new PopupWithForm(
@@ -71,6 +73,4 @@ const todoCounter = new TodoCounter(initialTodos, '.counter__text');
 document.querySelector(".button_action_add").addEventListener("click", () => {
   popupWithForm.open();
 });
-
-
 
