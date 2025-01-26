@@ -26,8 +26,7 @@ const handleFormSubmit = (evt, formData) => {
   todoCounter.updateTotal(true);
   popupWithForm.close();
   formValidator.resetValidation();
-  evt.target.reset(); 
-};
+  };
 
 const popupWithForm = new PopupWithForm(
   '#add-todo-popup', 
@@ -35,7 +34,6 @@ const popupWithForm = new PopupWithForm(
   formValidator
 );
 popupWithForm.setEventListeners();
-
 
 const handleTodoDelete = (wasCompleted) => {
   todoCounter.updateTotal(false);
@@ -65,10 +63,8 @@ const section = new Section({
 });
 section.renderItems();
 
-
 const todoCounter = new TodoCounter(initialTodos, '.counter__text');
 
 document.querySelector(".button_action_add").addEventListener("click", () => {
   popupWithForm.open();
 });
-
