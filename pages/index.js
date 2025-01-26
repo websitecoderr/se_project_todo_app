@@ -15,7 +15,7 @@ const renderTodo = (item) => {
   section.addItem(todo);
 };
 
-const handleFormSubmit = (formData) => {
+const handleFormSubmit = (evt, formData) => {
   const newTodo = {
     ...formData,
     id: crypto.randomUUID(),
@@ -25,11 +25,9 @@ const handleFormSubmit = (formData) => {
   renderTodo(newTodo);
   todoCounter.updateTotal(true);
   popupWithForm.close();
-  formValidator.resetValidation(); 
+  formValidator.resetValidation();
   evt.target.reset(); 
 };
-
-
 
 const popupWithForm = new PopupWithForm(
   '#add-todo-popup', 
